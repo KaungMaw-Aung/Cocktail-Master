@@ -1,8 +1,10 @@
 package com.kaungmaw.cocktailmaster.overview
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.material.chip.Chip
 import com.kaungmaw.cocktailmaster.network.OverviewDto
 import com.kaungmaw.cocktailmaster.repository.CocktailRepository
 import kotlinx.coroutines.CoroutineScope
@@ -25,6 +27,18 @@ class OverviewViewModel : ViewModel() {
     private val _listForChips = MutableLiveData<List<String>>()
     val listForChips: LiveData<List<String>>
         get() = _listForChips
+    
+    //current chip tag
+    val currentChipTag = MutableLiveData<String>()
+
+
+    //current isChecked
+    val isChecked = MutableLiveData<Boolean>()
+
+    //previous chip
+    val previousChip = MutableLiveData<Chip>()
+
+
 
     init {
         getDrinkByCategory("Cocktail")

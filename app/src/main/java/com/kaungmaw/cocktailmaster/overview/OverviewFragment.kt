@@ -39,8 +39,21 @@ class OverviewFragment : Fragment() {
             val children = list.map {
                 val chip = chipInflater.inflate(R.layout.category, chipGroup, false) as Chip
                 chip.text = it
-                chip.tag = it
+
+                if (viewModel.currentChipTag.value != null && chip.text == viewModel.currentChipTag.value){
+                    chip.tag = viewModel.currentChipTag.value
+                    chip.isChecked = viewModel.isChecked.value!!
+                    viewModel.previousChip.value = chip
+                } else{
+                    chip.tag = it
+                }
+
                 chip.setOnCheckedChangeListener { buttonView, isChecked ->
+                    viewModel.previousChip.value?.let { previousChip ->
+                        previousChip.isChecked = false
+                    }
+                    viewModel.currentChipTag.value = buttonView.tag as String
+                    viewModel.isChecked.value = isChecked
                     viewModel.filterDrink(buttonView.tag as String, isChecked)
                 }
                 chip
