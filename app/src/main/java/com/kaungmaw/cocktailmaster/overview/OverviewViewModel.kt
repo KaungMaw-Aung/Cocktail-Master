@@ -1,6 +1,5 @@
 package com.kaungmaw.cocktailmaster.overview
 
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,16 +26,9 @@ class OverviewViewModel : ViewModel() {
     private val _listForChips = MutableLiveData<List<String>>()
     val listForChips: LiveData<List<String>>
         get() = _listForChips
-    
-    //current chip tag
-    val currentChipTag = MutableLiveData<String>()
-
-
-    //current isChecked
-    val isChecked = MutableLiveData<Boolean>()
 
     //previous chip
-    val previousChip = MutableLiveData<Chip>()
+    val savedChip = MutableLiveData<Chip>()
 
 
 
