@@ -1,5 +1,6 @@
 package com.kaungmaw.cocktailmaster.network
 
+import com.kaungmaw.cocktailmaster.database.DrinkEntity
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -14,3 +15,15 @@ data class Drink (
     @Json(name = "strDrink") val drinkName: String,
     @Json(name = "strDrinkThumb") val drinkImgUrl: String
 )
+
+fun OverviewDto.asDatabaseModel(cat: String): Array<DrinkEntity>{
+    return drinksList.map {
+        DrinkEntity(
+            drinkID = it.drinkID,
+            drinkName = it.drinkName,
+            category = cat,
+            instructions = "",
+            drinkImg = it.drinkImgUrl
+        )
+    }.toTypedArray()
+}

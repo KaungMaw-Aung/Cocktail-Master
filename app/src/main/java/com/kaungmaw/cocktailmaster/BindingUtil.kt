@@ -6,11 +6,11 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.kaungmaw.cocktailmaster.network.Drink
+import com.kaungmaw.cocktailmaster.domain.DrinkDomain
 import com.kaungmaw.cocktailmaster.overview.OverviewAdapter
 
 @BindingAdapter("bindList")
-fun bindListWithRecycler(recyclerView: RecyclerView , drinkList: List<Drink>?){
+fun bindListWithRecycler(recyclerView: RecyclerView , drinkList: List<DrinkDomain>?){
     drinkList?.let {
         val adapter = recyclerView.adapter as OverviewAdapter
         adapter.submitList(it)

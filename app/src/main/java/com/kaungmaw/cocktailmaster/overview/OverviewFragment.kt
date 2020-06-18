@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.chip.Chip
 import com.kaungmaw.cocktailmaster.R
-
 import com.kaungmaw.cocktailmaster.databinding.FragmentOverviewBinding
 
 /**
@@ -20,51 +19,54 @@ import com.kaungmaw.cocktailmaster.databinding.FragmentOverviewBinding
  */
 class OverviewFragment : Fragment() {
 
+    private val viewModel by viewModels<OverviewViewModel> { OverviewViewModelFactory(requireNotNull(this.activity).application) }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentOverviewBinding.inflate(inflater, container, false)
-        val viewModel by viewModels<OverviewViewModel>()
-
-        viewModel.drinkListResult.observe(viewLifecycleOwner, Observer {
-            Log.i("OverviewFragment", "Result size is ${it.drinksList.size}")
-            binding.responseObjDto = it
-        })
-
-        viewModel.listForChips.observe(viewLifecycleOwner, Observer<List<String>> { list ->
-            val chipGroup = binding.categoryList
-            val chipInflater = LayoutInflater.from(chipGroup.context)
-            val children = list.map {
-                val chip = chipInflater.inflate(R.layout.category, chipGroup, false) as Chip
-                chip.text = it
-                chip.tag = it
-
-                viewModel.savedChip.value?.let {savedChip ->
-                    if (savedChip.tag == chip.tag){
-                        chip.isChecked = true
-                    }
-                }
-
-                chip.setOnCheckedChangeListener { buttonView, isChecked ->
-                    viewModel.savedChip.value?.let { previousChip ->
-                        previousChip.isChecked = false
-                    }
-                    viewModel.savedChip.value = chip
-                    viewModel.filterDrink(buttonView.tag as String, isChecked)
-                }
-                chip
-            }
-            chipGroup.removeAllViews()
-            for (each in children) {
-                chipGroup.addView(each)
-            }
-        })
 
         val adapter = OverviewAdapter()
-
         binding.rvCocktailList.adapter = adapter
+
+        viewModel.drinkListResult.observe(viewLifecycleOwner, Observer {
+            Log.i("OverviewFragment", "Result size is ${it.size}")
+            binding.viewModel = viewModel
+        })
+
+        val chipInflater = LayoutInflater.from(requireContext())
+        for (each in viewModel.listForChips) {
+            chipInflater.inflate(R.layout.category, binding.categoryList, false)
+                .let {
+                    it as Chip
+                }
+                .apply {
+                    text = each
+                    tag = each
+
+                    setOnClickListener {
+                        viewModel.savedChip = if (this.isChecked) {
+                            adapter.submitList(emptyList())
+                            this.tag as String
+                        } else ""
+                    }
+
+                    setOnCheckedChangeListener { buttonView, isChecked ->
+                        viewModel.filterDrink(buttonView.tag as String, isChecked)
+                    }
+                }.also {
+                    binding.categoryList.addView(it)
+                }.apply {
+                    if (this.tag == viewModel.savedChip) {
+                        this.isChecked = true
+                    }
+                }
+        }
+
+
+
 
         return binding.root
     }

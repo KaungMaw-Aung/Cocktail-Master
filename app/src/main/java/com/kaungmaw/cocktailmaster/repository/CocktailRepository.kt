@@ -1,16 +1,38 @@
 package com.kaungmaw.cocktailmaster.repository
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import com.kaungmaw.cocktailmaster.database.DrinkDatabase
+import com.kaungmaw.cocktailmaster.database.asDomainModel
+import com.kaungmaw.cocktailmaster.domain.DrinkDomain
 import com.kaungmaw.cocktailmaster.network.CocktailApi
 import com.kaungmaw.cocktailmaster.network.OverviewDto
+import com.kaungmaw.cocktailmaster.network.asDatabaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class CocktailRepository {
+class CocktailRepository(private val database: DrinkDatabase) {
 
-    suspend fun refreshCocktailList(category: String): OverviewDto{
-        return withContext(Dispatchers.IO){
-             CocktailApi.retrofitService.getCocktailByCategory(category).await()
+    fun getDrinkFromDatabase(category: String): LiveData<List<DrinkDomain>> {
+        return Transformations.map(database.drinkDao.getDrinkEntityByCategory(category)) {
+            it.asDomainModel()
         }
     }
 
+    suspend fun refreshCocktailList(category: String) {
+        try {
+            val response = withContext(Dispatchers.IO) {
+                CocktailApi.retrofitService.getCocktailByCategory(category).await()
+            }
+            database.drinkDao.insertAll(*response.asDatabaseModel(category))
+//            response.asDatabaseModel().map {
+//                it.copy(category = category)
+//            }.also {
+//                database.drinkDao.insertAll(*it.toTypedArray())
+//            }
+        }catch (e:Exception){
+            Log.e("CocktailRepository", e.message!!)
+        }
+    }
 }

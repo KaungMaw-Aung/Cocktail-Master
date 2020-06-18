@@ -6,17 +6,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.kaungmaw.cocktailmaster.databinding.GridItemHolderBinding
-import com.kaungmaw.cocktailmaster.network.Drink
+import com.kaungmaw.cocktailmaster.domain.DrinkDomain
 
-class OverviewAdapter: ListAdapter<Drink,OverviewAdapter.OverviewViewHolder>(DiffCallback()) {
+class OverviewAdapter: ListAdapter<DrinkDomain,OverviewAdapter.OverviewViewHolder>(DiffCallback()) {
 
     companion object{
-        class DiffCallback: DiffUtil.ItemCallback<Drink>(){
-            override fun areItemsTheSame(oldItem: Drink, newItem: Drink): Boolean {
+        class DiffCallback: DiffUtil.ItemCallback<DrinkDomain>(){
+            override fun areItemsTheSame(oldItem: DrinkDomain, newItem: DrinkDomain): Boolean {
                 return oldItem === newItem
             }
 
-            override fun areContentsTheSame(oldItem: Drink, newItem: Drink): Boolean {
+            override fun areContentsTheSame(oldItem: DrinkDomain, newItem: DrinkDomain): Boolean {
                 return oldItem.drinkID == newItem.drinkID
             }
         }
@@ -34,7 +34,7 @@ class OverviewAdapter: ListAdapter<Drink,OverviewAdapter.OverviewViewHolder>(Dif
 
     //ViewHolderClass
     class OverviewViewHolder(private val binding: GridItemHolderBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Drink?){
+        fun bind(item: DrinkDomain?){
             binding.drinkItem = item
             binding.executePendingBindings()
         }

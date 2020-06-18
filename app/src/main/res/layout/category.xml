@@ -3,9 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:textColor="#73767A"
+    tools:text="Cocktail"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     style="@style/Widget.MaterialComponents.Chip.Choice"
-    app:chipBackgroundColor="@color/selected_highlight"
     app:checkedIconVisible="false"
     tools:checked="true"/>

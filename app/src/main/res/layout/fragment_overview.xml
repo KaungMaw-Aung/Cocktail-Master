@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="responseObjDto"
-            type="com.kaungmaw.cocktailmaster.network.OverviewDto" />
+            name="viewModel"
+            type="com.kaungmaw.cocktailmaster.overview.OverviewViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,7 +34,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_cocktail_list"
-            bindList="@{responseObjDto.drinksList}"
+            bindList="@{viewModel.drinkListResult}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"

@@ -1,70 +1,61 @@
 package com.kaungmaw.cocktailmaster.overview
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.google.android.material.chip.Chip
+import android.app.Application
+import androidx.lifecycle.*
+import com.kaungmaw.cocktailmaster.database.DrinkDatabase
+import com.kaungmaw.cocktailmaster.domain.DrinkDomain
 import com.kaungmaw.cocktailmaster.network.OverviewDto
 import com.kaungmaw.cocktailmaster.repository.CocktailRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class OverviewViewModel : ViewModel() {
+class OverviewViewModel(application: Application) : ViewModel() {
 
-    private val job = Job()
-    private val scope = CoroutineScope(job + Dispatchers.Main)
-    private val repository = CocktailRepository()
+    private val database = DrinkDatabase.getInMemoryDatabase(application)
+
+    private val repository = CocktailRepository(database)
+
+    private val categoryLive = MutableLiveData<String>()
 
     //list to observe
-    private val _drinkListResult = MutableLiveData<OverviewDto>()
-    val drinkListResult: LiveData<OverviewDto>
-        get() = _drinkListResult
+    val drinkListResult = categoryLive
+        .distinctUntilChanged()
+        .switchMap { repository.getDrinkFromDatabase(it) }
 
     //list for chips
-    private val _listForChips = MutableLiveData<List<String>>()
-    val listForChips: LiveData<List<String>>
-        get() = _listForChips
+    val listForChips = listOf(
+        "Cocktail",
+        "Ordinary Drink",
+        "Milk / Float / Shake",
+        "Other/Unknown",
+        "Cocoa",
+        "Shot",
+        "Coffee / Tea",
+        "Homemade Liqueur",
+        "Punch / Party Drink",
+        "Beer",
+        "Soft Drink / Soda"
+    )
+
 
     //previous chip
-    val savedChip = MutableLiveData<Chip>()
-
-
+    var savedChip: String = "Cocktail"
 
     init {
         getDrinkByCategory("Cocktail")
-        _listForChips.value = listOf(
-            "Cocktail",
-            "Ordinary Drink",
-            "Milk / Float / Shake",
-            "Other/Unknown",
-            "Cocoa",
-            "Shot",
-            "Coffee / Tea",
-            "Homemade Liqueur",
-            "Punch / Party Drink",
-            "Beer",
-            "Soft Drink / Soda"
-        )
     }
 
-    fun filterDrink(category: String , isChecked: Boolean){
-        if(isChecked){
+    fun filterDrink(category: String, isChecked: Boolean) {
+        if (isChecked && savedChip != category) {
             getDrinkByCategory(category)
         }
     }
 
     private fun getDrinkByCategory(category: String) {
-        scope.launch {
-            _drinkListResult.value = repository.refreshCocktailList(category)
+        viewModelScope.launch {
+           repository.refreshCocktailList(category)
+            categoryLive.value = category
         }
-    }
 
-
-    override fun onCleared() {
-        super.onCleared()
-        job.cancel()
     }
 
 }
