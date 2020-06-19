@@ -14,7 +14,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/img_drink_photo"
+            android:id="@+id/img_drink_detail_photo"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             loadImage="@{drinkItem.drinkImg}"
@@ -22,7 +22,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/img_dummy"
+            tools:srcCompat="@drawable/img_dummy"
             android:contentDescription="@string/cocktail_drinks_image" />
 
         <TextView
@@ -34,6 +34,6 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_drink_photo" />
+            app:layout_constraintTop_toBottomOf="@+id/img_drink_detail_photo" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

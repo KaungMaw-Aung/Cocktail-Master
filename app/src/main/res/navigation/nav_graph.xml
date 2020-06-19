@@ -9,5 +9,18 @@
         android:id="@+id/overviewFragment"
         android:name="com.kaungmaw.cocktailmaster.overview.OverviewFragment"
         android:label="fragment_overview"
-        tools:layout="@layout/fragment_overview" />
+        tools:layout="@layout/fragment_overview" >
+        <action
+            android:id="@+id/action_overviewFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.kaungmaw.cocktailmaster.detail.DetailFragment"
+        android:label="fragment_detaill"
+        tools:layout="@layout/fragment_detaill" >
+        <argument
+            android:name="drinkID"
+            app:argType="string" />
+    </fragment>
 </navigation>

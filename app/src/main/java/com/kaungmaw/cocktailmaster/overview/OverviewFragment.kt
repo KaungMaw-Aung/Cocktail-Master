@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.kaungmaw.cocktailmaster.R
 import com.kaungmaw.cocktailmaster.databinding.FragmentOverviewBinding
@@ -19,7 +20,13 @@ import com.kaungmaw.cocktailmaster.databinding.FragmentOverviewBinding
  */
 class OverviewFragment : Fragment() {
 
-    private val viewModel by viewModels<OverviewViewModel> { OverviewViewModelFactory(requireNotNull(this.activity).application) }
+    private val viewModel by viewModels<OverviewViewModel> {
+        OverviewViewModelFactory(
+            requireNotNull(
+                this.activity
+            ).application
+        )
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -28,7 +35,10 @@ class OverviewFragment : Fragment() {
     ): View? {
         val binding = FragmentOverviewBinding.inflate(inflater, container, false)
 
-        val adapter = OverviewAdapter()
+        val adapter = OverviewAdapter(OverviewAdapter.OnClickListener {
+            findNavController().navigate(OverviewFragmentDirections.actionOverviewFragmentToDetailFragment(it))
+        })
+
         binding.rvCocktailList.adapter = adapter
 
         viewModel.drinkListResult.observe(viewLifecycleOwner, Observer {
@@ -64,9 +74,6 @@ class OverviewFragment : Fragment() {
                     }
                 }
         }
-
-
-
 
         return binding.root
     }

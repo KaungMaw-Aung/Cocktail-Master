@@ -20,7 +20,10 @@ val retrofit: Retrofit =
 interface CocktailApiService {
 
     @GET("filter.php")
-    fun getCocktailByCategory(@Query(value = "c") category: String): Deferred<OverviewDto>
+    fun getCocktailByCategoryAsync(@Query(value = "c") category: String): Deferred<OverviewDto>
+
+    @GET("lookup.php")
+    fun getDetailByIdAsync(@Query(value = "i") keyID: String): Deferred<DetailDto>
 
 }
 

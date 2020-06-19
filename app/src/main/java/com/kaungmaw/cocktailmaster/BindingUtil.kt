@@ -1,5 +1,6 @@
 package com.kaungmaw.cocktailmaster
 
+import android.app.Application
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -32,4 +33,3 @@ fun bindText(textView: TextView , text: String?){
         textView.text = it
     }
 }
-

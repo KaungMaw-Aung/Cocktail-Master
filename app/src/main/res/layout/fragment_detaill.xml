@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="detailObject"
+            type="com.kaungmaw.cocktailmaster.network.DrinkDetailDto" />
+        <variable
+            name="app"
+            type="android.app.Application" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".detail.DetailFragment">
+
+            <ImageView
+                android:id="@+id/img_drink_detail_photo"
+                loadImage="@{detailObject.detailMap.get()}"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:contentDescription="@string/cocktail_drinks_image"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/img_dummy" />
+
+            <TextView
+                android:id="@+id/tv_detail_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="Cocktail"
+                bindText="@{detailObject.drinkName}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/img_drink_detail_photo" />
+
+            <TextView
+                android:id="@+id/tv_detail_instruction"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                bindText="@{detailObject.instructions}"
+                tools:text="This book and all corresponding materials (such as source code) are provided on an “as is” basis, without warranty of any kind, express of implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement. "
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_detail_name" />
+
+            <TextView
+                android:id="@+id/tv_category_label"
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:text="@string/category_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_detail_instruction" />
+
+            <TextView
+                android:id="@+id/tv_detail_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                bindText="@{detailObject.category}"
+                tools:text="Cocktail"
+                app:layout_constraintStart_toEndOf="@+id/tv_category_label"
+                app:layout_constraintTop_toTopOf="@+id/tv_category_label" />
+
+            <TextView
+                android:id="@+id/tv_ingredient1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:text="Tequila : 1 1/2 oz "
+                android:text="@{String.format(@string/ingredient_text , detailObject.ingredient1 , detailObject.measure1 )}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_detail_category" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</layout>
