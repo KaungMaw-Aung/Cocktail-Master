@@ -1,43 +1,49 @@
 package com.kaungmaw.cocktailmaster.network
 
+import com.kaungmaw.cocktailmaster.database.DrinkEntity
+import com.kaungmaw.cocktailmaster.database.RoomConverter
+import com.kaungmaw.cocktailmaster.domain.DrinkDomain
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class DetailDto(
-    @Json(name = "drinks") val drink: List<DrinkDetailDto>
+    @Json(name = "drinks") val drink: List<Map<String, String?>>
 )
 
-@JsonClass(generateAdapter = true)
-class DrinkDetailDto(
-    val detailMap: Map<String,String?>
-)
+fun DetailDto.asDomainModel(): DrinkDomain {
+    val map = drink[0]
+    return DrinkDomain(
+        drinkID = map["idDrink"]!!,
+        drinkName = map["strDrink"]!!,
+        category = map["strCategory"]!!,
+        instructions = map["strInstructions"]!!,
+        drinkImg = map["strDrinkThumb"] ?: "",
+        ingredientList = map.keys.filter {
+            it.contains("strIngredient")
+        }.mapNotNull {
+            map[it]
+        }
+    )
+}
 
-
-//@Json(name = "idDrink")
-//val drinkID: String,
-//@Json(name = "strDrink")
-//val drinkName: String,
-//@Json(name = "strCategory")
-//val category: String,
-//@Json(name = "strInstructions")
-//val instructions: String,
-//@Json(name = "strDrinkThumb")
-//val drinkImgUrl: String,
-//@Json(name = "strIngredient1")
-//val ingredient1: String?,
-//@Json(name = "strIngredient2")
-//val ingredient2: String?,
-//@Json(name = "strIngredient3")
-//val ingredient3: String?,
-//@Json(name = "strIngredient4")
-//val ingredient4: String?,
-//@Json(name = "strMeasure1")
-//val measure1: String?,
-//@Json(name = "strMeasure2")
-//val measure2: String?,
-//@Json(name = "strMeasure3")
-//val measure3: String?,
-//@Json(name = "strMeasure4")
-//val measure4: String?
+fun DetailDto.asDatabaseModel(): DrinkEntity {
+    val map = drink[0]
+    return DrinkEntity(
+        drinkID = map["idDrink"]!!,
+        drinkName = map["strDrink"]!!,
+        category = map["strCategory"]!!,
+        instructions = map["strInstructions"]!!,
+        drinkImg = map["strDrinkThumb"] ?: "",
+        ingredients = RoomConverter.adapter.toJson(
+            map.keys.filter {
+                it.contains("strIngredient")
+            }.filter {
+                map[it] != ""
+            }.mapNotNull {
+                map[it]
+            }
+        )
+    )
+}
 

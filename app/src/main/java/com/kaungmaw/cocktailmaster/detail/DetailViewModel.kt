@@ -1,11 +1,10 @@
 package com.kaungmaw.cocktailmaster.detail
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
 import com.kaungmaw.cocktailmaster.database.DrinkDatabase
+import com.kaungmaw.cocktailmaster.domain.DrinkDomain
 import com.kaungmaw.cocktailmaster.network.DetailDto
 import com.kaungmaw.cocktailmaster.repository.CocktailRepository
 import kotlinx.coroutines.launch
@@ -16,19 +15,21 @@ class DetailViewModel(application: Application, drinkIDKey: String) : ViewModel(
 
     private val repository = CocktailRepository(database)
 
-    private val _responseDetail = MutableLiveData<DetailDto>()
-    val responseDetail : LiveData<DetailDto>
-        get() = _responseDetail
+    private val keyID = MutableLiveData<String>()
+
+    val responseDetail = keyID.distinctUntilChanged().switchMap {
+        repository.getDetailFromDatabase(it)
+    }
 
     init {
         getCocktailById(drinkIDKey)
     }
 
-    private fun getCocktailById(key: String){
+    private fun getCocktailById(key: String) {
         viewModelScope.launch {
-            _responseDetail.value = repository.refreshCocktailDetail(key)
+            repository.refreshCocktailDetail(key)
+            keyID.value = key
         }
     }
-
 
 }

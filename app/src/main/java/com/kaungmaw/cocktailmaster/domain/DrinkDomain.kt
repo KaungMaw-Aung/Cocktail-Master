@@ -5,5 +5,6 @@ data class DrinkDomain(
     val drinkName: String,
     val category: String,
     val instructions: String,
-    val drinkImg: String
+    val drinkImg: String,
+    val ingredientList: List<String>
 )

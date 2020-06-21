@@ -1,6 +1,7 @@
 package com.kaungmaw.cocktailmaster.network
 
 import com.kaungmaw.cocktailmaster.database.DrinkEntity
+import com.kaungmaw.cocktailmaster.database.RoomConverter
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -23,7 +24,8 @@ fun OverviewDto.asDatabaseModel(cat: String): Array<DrinkEntity>{
             drinkName = it.drinkName,
             category = cat,
             instructions = "",
-            drinkImg = it.drinkImgUrl
+            drinkImg = it.drinkImgUrl,
+            ingredients = RoomConverter.adapter.toJson(emptyList())
         )
     }.toTypedArray()
 }

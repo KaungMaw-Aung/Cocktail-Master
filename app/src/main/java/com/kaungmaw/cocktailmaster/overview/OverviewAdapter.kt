@@ -8,16 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kaungmaw.cocktailmaster.databinding.GridItemHolderBinding
 import com.kaungmaw.cocktailmaster.domain.DrinkDomain
 
-class OverviewAdapter(val onClickListener: OnClickListener): ListAdapter<DrinkDomain,OverviewAdapter.OverviewViewHolder>(DiffCallback()) {
+class OverviewAdapter(private val onClickListener: OnClickListener): ListAdapter<DrinkDomain,OverviewAdapter.OverviewViewHolder>(DiffCallback()) {
 
     companion object{
         class DiffCallback: DiffUtil.ItemCallback<DrinkDomain>(){
             override fun areItemsTheSame(oldItem: DrinkDomain, newItem: DrinkDomain): Boolean {
-                return oldItem === newItem
+                return oldItem.drinkID === newItem.drinkID
             }
 
             override fun areContentsTheSame(oldItem: DrinkDomain, newItem: DrinkDomain): Boolean {
-                return oldItem.drinkID == newItem.drinkID
+                return oldItem == newItem
             }
         }
     }

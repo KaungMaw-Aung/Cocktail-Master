@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
 import com.kaungmaw.cocktailmaster.R
 import com.kaungmaw.cocktailmaster.databinding.FragmentOverviewBinding
@@ -34,6 +35,10 @@ class OverviewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentOverviewBinding.inflate(inflater, container, false)
+
+        val spanCount = resources.getInteger(R.integer.span_count)
+        val layoutManager = GridLayoutManager(requireContext(),spanCount)
+        binding.rvCocktailList.layoutManager = layoutManager
 
         val adapter = OverviewAdapter(OverviewAdapter.OnClickListener {
             findNavController().navigate(OverviewFragmentDirections.actionOverviewFragmentToDetailFragment(it))

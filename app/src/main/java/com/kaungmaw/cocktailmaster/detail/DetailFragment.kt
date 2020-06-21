@@ -27,9 +27,11 @@ class DetailFragment : Fragment() {
         val binding = FragmentDetaillBinding.inflate(inflater, container, false)
 
         viewModel.responseDetail.observe(viewLifecycleOwner , Observer {
-            binding.tvCategoryLabel.visibility = View.VISIBLE
-            binding.tvIngredient1.visibility = View.VISIBLE
-            binding.detailObject = it.drink[0]
+            binding.apply {
+                detailObject = it
+                tvCategoryLabel.visibility = View.VISIBLE
+                tvIngredientsLabel.visibility = View.VISIBLE
+            }
         })
 
         return binding.root
