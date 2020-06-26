@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.kaungmaw.cocktailmaster.R
 import com.kaungmaw.cocktailmaster.databinding.FragmentDetaillBinding
 
 class DetailFragment : Fragment() {
@@ -31,6 +30,7 @@ class DetailFragment : Fragment() {
                 detailObject = it
                 tvCategoryLabel.visibility = View.VISIBLE
                 tvIngredientsLabel.visibility = View.VISIBLE
+                tvInstructionLabel.visibility = View.VISIBLE
             }
         })
 

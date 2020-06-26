@@ -22,17 +22,16 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:context=".detail.DetailFragment"
-                android:padding="5dp">
+                android:padding="5dp"
+                tools:context=".detail.DetailFragment">
 
                 <ImageView
                     android:id="@+id/img_drink_detail_photo"
                     loadImage="@{detailObject.drinkImg}"
-                    android:layout_width="350dp"
+                    android:layout_width="200dp"
                     android:layout_height="0dp"
                     android:contentDescription="@string/cocktail_drinks_image"
                     app:layout_constraintDimensionRatio="w,1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:srcCompat="@drawable/img_dummy" />
@@ -40,12 +39,13 @@
                 <TextView
                     android:id="@+id/tv_detail_name"
                     bindText="@{detailObject.drinkName}"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:textAppearance="?attr/textAppearanceHeadline4"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textAppearance="?attr/textAppearanceHeadline5"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/img_drink_detail_photo"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/img_drink_detail_photo"
                     tools:text="Cocktail" />
@@ -62,7 +62,7 @@
                     android:lineSpacingExtra="5sp"
                     android:textAppearance="?attr/textAppearanceBody2"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/img_drink_detail_photo"
                     app:layout_constraintTop_toBottomOf="@+id/tv_instruction_label"
                     tools:text="This book and all corresponding materials (such as source code) are provided on an “as is” basis, without warranty of any kind, express of implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement. " />
 
@@ -76,9 +76,8 @@
                     android:textSize="16sp"
                     android:visibility="invisible"
                     app:layout_constraintEnd_toStartOf="@+id/tv_detail_category"
-                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/img_drink_detail_photo"
                     app:layout_constraintTop_toTopOf="@+id/tv_detail_category" />
 
                 <TextView
@@ -98,14 +97,17 @@
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/cg_ingredients"
                     bindIngredients="@{detailObject.ingredientList}"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/img_drink_detail_photo"
                     app:layout_constraintTop_toBottomOf="@+id/tv_ingredients_label"
+                    app:layout_constraintVertical_bias="0.589"
                     app:singleLine="false" />
 
                 <TextView
@@ -118,21 +120,20 @@
                     android:textSize="16sp"
                     android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/img_drink_detail_photo"
                     app:layout_constraintTop_toBottomOf="@+id/tv_category_label" />
 
                 <TextView
                     android:id="@+id/tv_instruction_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:text="@string/instruction_label"
                     android:textAppearance="?attr/textAppearanceHeadline6"
                     android:textSize="17sp"
                     android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_detail_name" />
+                    app:layout_constraintStart_toEndOf="@+id/img_drink_detail_photo"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

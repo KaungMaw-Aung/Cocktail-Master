@@ -1,11 +1,9 @@
 package com.kaungmaw.cocktailmaster
 
 import android.view.LayoutInflater
-import android.view.animation.Transformation
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.Transformations
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -48,7 +46,7 @@ fun bindIngredients(chipGroup: ChipGroup, ingredients: List<String>?) {
         chipGroup.removeAllViews()
         val inflater = LayoutInflater.from(chipGroup.context)
         it.map { name ->
-            val chip = inflater.inflate(R.layout.ingredient,chipGroup,false) as Chip
+            val chip = inflater.inflate(R.layout.ingredient, chipGroup, false) as Chip
             chip.text = name
             chipGroup.addView(chip)
         }

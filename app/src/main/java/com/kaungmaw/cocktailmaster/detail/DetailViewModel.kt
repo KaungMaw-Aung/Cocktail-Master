@@ -1,11 +1,8 @@
 package com.kaungmaw.cocktailmaster.detail
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.kaungmaw.cocktailmaster.database.DrinkDatabase
-import com.kaungmaw.cocktailmaster.domain.DrinkDomain
-import com.kaungmaw.cocktailmaster.network.DetailDto
 import com.kaungmaw.cocktailmaster.repository.CocktailRepository
 import kotlinx.coroutines.launch
 

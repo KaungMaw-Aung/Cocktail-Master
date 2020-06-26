@@ -8,9 +8,7 @@ import com.kaungmaw.cocktailmaster.database.asDomainDetailModel
 import com.kaungmaw.cocktailmaster.database.asDomainModel
 import com.kaungmaw.cocktailmaster.domain.DrinkDomain
 import com.kaungmaw.cocktailmaster.network.CocktailApi
-import com.kaungmaw.cocktailmaster.network.DetailDto
 import com.kaungmaw.cocktailmaster.network.asDatabaseModel
-import com.kaungmaw.cocktailmaster.network.asDomainModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

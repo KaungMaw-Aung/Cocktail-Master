@@ -1,6 +1,5 @@
 package com.kaungmaw.cocktailmaster.database
 
-import androidx.lifecycle.Transformations.map
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.kaungmaw.cocktailmaster.domain.DrinkDomain
@@ -14,9 +13,9 @@ data class DrinkEntity(
     val instructions: String,
     val drinkImg: String,
     val ingredients: String
-    )
+)
 
-fun List<DrinkEntity>.asDomainModel(): List<DrinkDomain>{
+fun List<DrinkEntity>.asDomainModel(): List<DrinkDomain> {
     return map {
         DrinkDomain(
             drinkID = it.drinkID,
@@ -29,7 +28,7 @@ fun List<DrinkEntity>.asDomainModel(): List<DrinkDomain>{
     }
 }
 
-fun asDomainDetailModel(drinkEntity: DrinkEntity): DrinkDomain{
+fun asDomainDetailModel(drinkEntity: DrinkEntity): DrinkDomain {
     return DrinkDomain(
         drinkID = drinkEntity.drinkID,
         drinkName = drinkEntity.drinkName,
