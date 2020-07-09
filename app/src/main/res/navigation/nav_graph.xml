@@ -24,4 +24,9 @@
             android:name="drinkID"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/alcoholicFragment"
+        android:name="com.kaungmaw.cocktailmaster.alcoholic.AlcoholicFragment"
+        android:label="fragment_alcoholic"
+        tools:layout="@layout/fragment_alcoholic" />
 </navigation>

@@ -8,7 +8,9 @@ import com.kaungmaw.cocktailmaster.database.asDomainDetailModel
 import com.kaungmaw.cocktailmaster.database.asDomainModel
 import com.kaungmaw.cocktailmaster.domain.DrinkDomain
 import com.kaungmaw.cocktailmaster.network.CocktailApi
+import com.kaungmaw.cocktailmaster.network.OverviewDto
 import com.kaungmaw.cocktailmaster.network.asDatabaseModel
+import com.kaungmaw.cocktailmaster.network.asDomainModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -37,14 +39,27 @@ class CocktailRepository(private val database: DrinkDatabase) {
         }
     }
 
-    suspend fun refreshCocktailDetail(keyID: String){
-         try {
-             val response = withContext(Dispatchers.IO) {
-                 CocktailApi.retrofitService.getDetailByIdAsync(keyID).await().asDatabaseModel()
-             }
-             database.drinkDao.insertAll(response)
-         }catch (e: Exception){
-             Log.e("CocktailRepository", e.message!!)
-         }
+    suspend fun refreshCocktailDetail(keyID: String) {
+        try {
+            val response = withContext(Dispatchers.IO) {
+                CocktailApi.retrofitService.getDetailByIdAsync(keyID).await().asDatabaseModel()
+            }
+            database.drinkDao.insertAll(response)
+        } catch (e: Exception) {
+            Log.e("CocktailRepository", e.message!!)
+        }
+    }
+
+    suspend fun refreshAlcoholic(type: String): List<DrinkDomain> {
+        var result = emptyList<DrinkDomain>()
+        try {
+            withContext(Dispatchers.IO) {
+                result = CocktailApi.retrofitService.getAlcoholicAsync(type).await().asDomainModel()
+            }
+        } catch (e: Exception) {
+            Log.e("CocktailRepository", e.message!!)
+            result = emptyList()
+        }
+        return result
     }
 }

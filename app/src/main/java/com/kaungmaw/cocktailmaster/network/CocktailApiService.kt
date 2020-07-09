@@ -25,6 +25,9 @@ interface CocktailApiService {
     @GET("lookup.php")
     fun getDetailByIdAsync(@Query(value = "i") keyID: String): Deferred<DetailDto>
 
+    @GET("filter.php")
+    fun getAlcoholicAsync(@Query(value = "a") type: String): Deferred<OverviewDto>
+
 }
 
 object CocktailApi {

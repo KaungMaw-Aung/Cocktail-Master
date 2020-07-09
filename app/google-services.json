@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "166424614619",
+    "firebase_url": "https://fir-experiment-8d3d3.firebaseio.com",
+    "project_id": "fir-experiment-8d3d3",
+    "storage_bucket": "fir-experiment-8d3d3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:166424614619:android:86784f6df0e842141c9efe",
+        "android_client_info": {
+          "package_name": "com.kaungmaw.cocktailmaster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "166424614619-vth7ppq0b622g6tnrv785peg89p6kgak.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPX83TsnzF0DWqziG8x-0jqeq2WYvMzsA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "166424614619-vth7ppq0b622g6tnrv785peg89p6kgak.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

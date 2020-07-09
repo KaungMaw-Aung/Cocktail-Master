@@ -2,7 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/fragment_overview"
+        android:id="@+id/overviewFragment"
         android:title="Home" />
-    <item android:title="Item" />
+    <item
+        android:id="@+id/alcoholicFragment"
+        android:title="Non Alcoholic" />
 </menu>

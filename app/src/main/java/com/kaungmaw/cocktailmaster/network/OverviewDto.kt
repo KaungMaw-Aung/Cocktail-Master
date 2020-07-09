@@ -2,6 +2,7 @@ package com.kaungmaw.cocktailmaster.network
 
 import com.kaungmaw.cocktailmaster.database.DrinkEntity
 import com.kaungmaw.cocktailmaster.database.RoomConverter
+import com.kaungmaw.cocktailmaster.domain.DrinkDomain
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -28,4 +29,17 @@ fun OverviewDto.asDatabaseModel(cat: String): Array<DrinkEntity>{
             ingredients = RoomConverter.adapter.toJson(emptyList())
         )
     }.toTypedArray()
+}
+
+fun OverviewDto.asDomainModel(): List<DrinkDomain>{
+    return drinksList.map {
+        DrinkDomain(
+            drinkID = it.drinkID,
+            drinkName = it.drinkName,
+            category = "",
+            instructions = "",
+            drinkImg = it.drinkImgUrl,
+            ingredientList = emptyList()
+        )
+    }
 }
