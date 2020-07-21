@@ -29,4 +29,9 @@
         android:name="com.kaungmaw.cocktailmaster.alcoholic.AlcoholicFragment"
         android:label="fragment_alcoholic"
         tools:layout="@layout/fragment_alcoholic" />
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.kaungmaw.cocktailmaster.favorite.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" />
 </navigation>

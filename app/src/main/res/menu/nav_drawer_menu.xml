@@ -7,4 +7,7 @@
     <item
         android:id="@+id/alcoholicFragment"
         android:title="Non Alcoholic" />
+    <item
+        android:id="@+id/favoriteFragment"
+        android:title="Favorite" />
 </menu>

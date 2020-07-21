@@ -19,4 +19,7 @@ interface DrinkDao {
     @Query("SELECT * FROM drink_table WHERE drinkID = :keyID")
     fun getDetailByID(keyID: String): LiveData<DrinkEntity>
 
+    @Query("SELECT * FROM drink_table WHERE drinkID = :keyID")
+    suspend fun getFavoriteByID(keyID: String): DrinkEntity
+
 }

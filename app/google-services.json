@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "166424614619-jdld7cnte97d795mfh7p0hhlqnj9rvrc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kaungmaw.cocktailmaster",
+            "certificate_hash": "5262432d8eb7e2315e9a693857c7de904c36da91"
+          }
+        },
+        {
           "client_id": "166424614619-vth7ppq0b622g6tnrv785peg89p6kgak.apps.googleusercontent.com",
           "client_type": 3
         }

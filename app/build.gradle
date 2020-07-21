@@ -102,14 +102,30 @@ dependencies {
 
     implementation "androidx.cardview:cardview:1.0.0"
 
-    implementation 'com.google.firebase:firebase-analytics:17.4.3'
-    // Add the SDK for Firebase Cloud Messaging
-    implementation 'com.google.firebase:firebase-messaging:20.2.1'
-
-    //in app messaging
-    implementation 'com.google.firebase:firebase-inappmessaging-display-ktx:19.0.7'
-
-    // Add the dependency for the Performance Monitoring library
+    implementation 'com.google.firebase:firebase-analytics:17.4.4'
+//    // Add the SDK for Firebase Cloud Messaging
+//    implementation 'com.google.firebase:firebase-messaging:20.2.1'
+//
+//    //in app messaging
+//    implementation 'com.google.firebase:firebase-inappmessaging-display-ktx:19.0.7'
+//
+//    // Add the dependency for the Performance Monitoring library
     implementation 'com.google.firebase:firebase-perf:19.0.7'
+
+    //remote config
+    implementation 'com.google.firebase:firebase-config-ktx:19.2.0'
+
+    //firestore
+    implementation 'com.google.firebase:firebase-firestore-ktx:21.5.0'
+
+    //auth
+    implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
+    implementation 'com.google.firebase:firebase-auth:19.3.2'
+
+    //storage
+    implementation 'com.google.firebase:firebase-storage-ktx:19.1.1'
+
+
+
 
 }
