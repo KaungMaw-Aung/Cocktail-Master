@@ -3,6 +3,7 @@ package com.kaungmaw.cocktailmaster.detail
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.kaungmaw.cocktailmaster.database.DrinkDatabase
@@ -21,7 +22,7 @@ class DetailViewModel(application: Application, private val drinkIDKey: String) 
 
     // Access a Cloud Firestore instance from your Activity
     private val db = Firebase.firestore
-    private val docRef = db.collection("favorite_drinks").document(drinkIDKey)
+    private val docRef = db.collection("${FirebaseAuth.getInstance().currentUser?.uid}").document(drinkIDKey)
 //    var isFavorite: Any? = null
 
     private val _isFavorite = MutableLiveData<Any>()
@@ -63,7 +64,7 @@ class DetailViewModel(application: Application, private val drinkIDKey: String) 
     fun toggleFavorite() {
         getIsFavorite()
         if (_isFavorite.value == true) {
-            db.collection("favorite_drinks").document(drinkIDKey)
+            docRef
                 .delete()
                 .addOnSuccessListener { Log.i(TAG, "DocumentSnapshot successfully deleted!") }
                 .addOnFailureListener { e -> Log.i(TAG, "Error deleting document", e) }

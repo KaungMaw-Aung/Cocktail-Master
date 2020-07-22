@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.kaungmaw.cocktailmaster.database.DrinkDatabase
@@ -74,7 +75,7 @@ class CocktailRepository(private val database: DrinkDatabase) {
         val db = Firebase.firestore
         val favoriteListLive = MutableLiveData<List<DrinkDomain>>()
 
-        db.collection("favorite_drinks")
+        db.collection("${FirebaseAuth.getInstance().currentUser?.uid}")
             .get()
             .addOnSuccessListener { result ->
                 GlobalScope.launch {
