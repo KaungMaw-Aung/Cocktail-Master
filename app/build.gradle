@@ -125,6 +125,11 @@ dependencies {
     //storage
     implementation 'com.google.firebase:firebase-storage-ktx:19.1.1'
 
+    //for animation
+    def lottieVersion = "3.4.1"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
+
 
 
 

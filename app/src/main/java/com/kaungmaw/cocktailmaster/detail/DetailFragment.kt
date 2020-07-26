@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.kaungmaw.cocktailmaster.R
@@ -36,20 +37,28 @@ class DetailFragment : Fragment() {
                 tvCategoryLabel.visibility = View.VISIBLE
                 tvIngredientsLabel.visibility = View.VISIBLE
                 tvInstructionLabel.visibility = View.VISIBLE
-                ivFavorite!!.visibility = View.VISIBLE
+                aniFavorite?.visibility = View.VISIBLE
             }
         })
 
-        viewModel.isFavorite.observe(viewLifecycleOwner , Observer {
-            binding.ivFavorite?.setImageResource(if (it == true) {
-                R.drawable.ic_favorite
-            }else{
-                R.drawable.ic_non_favorite
-            })
+        viewModel.toggleFavorite()
+        viewModel.isFavorite.observe(viewLifecycleOwner, Observer {
+            binding.aniFavorite?.setImageResource(
+                when (it) {
+                    true -> R.drawable.ic_favorite
+                    else -> R.drawable.ic_non_favorite
+                }
+            )
         })
 
-        binding.ivFavorite?.setOnClickListener {
-            viewModel.toggleFavorite()
+        binding.aniFavorite?.setOnClickListener {
+            viewModel.assignFavorite()
+            Snackbar.make(
+                binding.tvDetailName,
+                if (viewModel.isFavorite.value == false) "added favorite" else "remove favorite",
+                Snackbar.LENGTH_SHORT
+            )
+                .show()
         }
 
         return binding.root

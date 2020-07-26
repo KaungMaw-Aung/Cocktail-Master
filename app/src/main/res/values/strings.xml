@@ -9,5 +9,6 @@
     <string name="ingredients">Ingredients</string>
     <string name="instruction_label">Instructions</string>
     <string name="cocktail_icon">cocktail icon</string>
+    <string name="no_favorite_alert">+ Add Some Favorite!</string>
 
 </resources>

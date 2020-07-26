@@ -4,9 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.kaungmaw.cocktailmaster.R
 import com.kaungmaw.cocktailmaster.database.DrinkDatabase
 import com.kaungmaw.cocktailmaster.database.asDomainDetailModel
 import com.kaungmaw.cocktailmaster.database.asDomainModel
@@ -14,6 +17,7 @@ import com.kaungmaw.cocktailmaster.domain.DrinkDomain
 import com.kaungmaw.cocktailmaster.network.CocktailApi
 import com.kaungmaw.cocktailmaster.network.asDatabaseModel
 import com.kaungmaw.cocktailmaster.network.asDomainModel
+import kotlinx.android.synthetic.main.drawer_header.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -70,32 +74,37 @@ class CocktailRepository(private val database: DrinkDatabase) {
         return result
     }
 
-    fun getFavoriteList(): MutableLiveData<List<DrinkDomain>> {
+    fun getFavoriteList(): MutableLiveData<List<DrinkDomain>?> {
 
         val db = Firebase.firestore
-        val favoriteListLive = MutableLiveData<List<DrinkDomain>>()
+        val favoriteListLive = MutableLiveData<List<DrinkDomain>?>()
 
-        db.collection("${FirebaseAuth.getInstance().currentUser?.uid}")
-            .get()
-            .addOnSuccessListener { result ->
-                GlobalScope.launch {
-                    result.map {
-                        database.drinkDao.getFavoriteByID(it.id).let { entity ->
-                            asDomainDetailModel(entity)
+        db.collection("users").document("${FirebaseAuth.getInstance().currentUser?.uid}")
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    GlobalScope.launch {
+                        val list = snapshot.data?.get("favorite_list")
+                        if (list == null) {
+                            favoriteListLive.postValue(null)
+                        } else {
+                            val arrayList = list as ArrayList<String>
+                            if (arrayList.isEmpty()) {
+                                favoriteListLive.postValue(null)
+                            } else {
+                                list.map {
+                                    database.drinkDao.getFavoriteByID(it).let { entity ->
+                                        asDomainDetailModel(entity)
+                                    }
+                                }.also {
+                                    favoriteListLive.postValue(it)
+                                }
+                            }
                         }
-                    }.also {
-                        favoriteListLive.postValue(it)
                     }
                 }
-
-//                favoriteList.map { id ->
-//                    Transformations.map(database.drinkDao.getDetailByID(id)) {
-//                        asDomainDetailModel(it)
-//                    }
-//                }
-            }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "Error getting documents: ", exception)
             }
         return favoriteListLive
     }

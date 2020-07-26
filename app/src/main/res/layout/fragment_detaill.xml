@@ -129,20 +129,19 @@
                     android:textAppearance="?attr/textAppearanceHeadline6"
                     android:textSize="17sp"
                     android:visibility="invisible"
-                    app:layout_constraintEnd_toStartOf="@+id/iv_favorite"
+                    app:layout_constraintEnd_toStartOf="@+id/ani_favorite"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_detail_name" />
 
-                <ImageView
-                    android:id="@+id/iv_favorite"
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/ani_favorite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:contentDescription="Blue Heart Icon"
                     android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_detail_name" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_detail_name"
+                    app:lottie_autoPlay="false"
+                    app:lottie_loop="false" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

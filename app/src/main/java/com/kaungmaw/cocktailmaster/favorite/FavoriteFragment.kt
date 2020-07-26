@@ -27,21 +27,25 @@ class FavoriteFragment : Fragment() {
         val binding = FragmentFavoriteBinding.inflate(inflater, container, false)
 
         val spanCount = resources.getInteger(R.integer.span_count)
-        val layoutManager = GridLayoutManager(requireContext(),spanCount)
+        val layoutManager = GridLayoutManager(requireContext(), spanCount)
         binding.rvFavorite.layoutManager = layoutManager
 
-        val adapter = OverviewAdapter(OverviewAdapter.OnClickListener{
-//            findNavController().navigate(OverviewFragmentDirections.)
+        val adapter = OverviewAdapter(OverviewAdapter.OnClickListener {
+            findNavController().navigate(
+                FavoriteFragmentDirections.actionFavoriteFragmentToDetailFragment(
+                    it
+                )
+            )
         })
 
         binding.rvFavorite.adapter = adapter
 
-        viewModel.favoriteList.observe(viewLifecycleOwner , Observer {
-            binding.favoriteViewModel = viewModel
+        viewModel.favoriteList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.tvNoFavorite.visibility = View.GONE
+                binding.favoriteViewModel = viewModel
+            }
         })
-
-
-
 
         return binding.root
     }

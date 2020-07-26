@@ -13,8 +13,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.kaungmaw.cocktailmaster.databinding.ActivityMainBinding
@@ -22,18 +26,21 @@ import kotlinx.android.synthetic.main.drawer_header.view.*
 import java.io.ByteArrayOutputStream
 
 private const val RC_SIGN_IN = 101
+private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    private val db = Firebase.firestore
+    private val docRef = db.collection("users")
+
     // Choose authentication providers
     private val providers = arrayListOf(
+        AuthUI.IdpConfig.EmailBuilder().build(),
         AuthUI.IdpConfig.PhoneBuilder().build()
-//            AuthUI.IdpConfig.EmailBuilder().build(),
 //            AuthUI.IdpConfig.GoogleBuilder().build(),
 //            AuthUI.IdpConfig.FacebookBuilder().build(),
-//            AuthUI.IdpConfig.TwitterBuilder().build()
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,6 +114,28 @@ class MainActivity : AppCompatActivity() {
         val navView = binding.navView
         val headerView = navView.getHeaderView(0)
         headerView.tv_username.text = FirebaseAuth.getInstance().currentUser?.phoneNumber
+            ?: FirebaseAuth.getInstance().currentUser?.displayName
+
+        docRef.document(FirebaseAuth.getInstance().currentUser!!.uid)
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e)
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    Glide.with(headerView.iv_profile.context)
+                        .load(snapshot.data?.get("profile_url"))
+                        .circleCrop()
+                        .apply(
+                            RequestOptions.placeholderOf(R.drawable.loading_animation)
+                                .error(R.drawable.ic_broken_image)
+                        )
+                        .into(headerView.iv_profile)
+                } else {
+                    Log.d(TAG, "data: null")
+                }
+            }
+
         headerView.iv_profile.setOnClickListener {
             selectImage(this)
         }
@@ -142,11 +171,18 @@ class MainActivity : AppCompatActivity() {
 
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
+                val user = hashMapOf(
+                    "profile_url" to (FirebaseAuth.getInstance().currentUser?.photoUrl
+                        ?: "https://www.clipartmax.com/png/middle/171-1717870_stockvader-predicted-cron-for-may-user-profile-icon-png.png")
+                )
+                docRef.document("${FirebaseAuth.getInstance().currentUser?.uid}").set(user)
+                    .addOnSuccessListener {
+                        Log.i(TAG, "Succeed!")
+                    }.addOnFailureListener { e ->
+                        Log.i(TAG, "Failed! ${e.message}")
+                    }
                 bindUserData()
             } else {
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
                 Log.d("MainActivity", "Sign in failed!")
             }
         }
@@ -176,7 +212,7 @@ class MainActivity : AppCompatActivity() {
         dialog.setItems(listItems) { dialogInt, item ->
             when (listItems[item]) {
                 "Take Photo" -> {
-                    val cameraIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
+                    val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     startActivityForResult(cameraIntent, 0)
                 }
                 "Choose from Gallery" -> {
@@ -205,17 +241,24 @@ class MainActivity : AppCompatActivity() {
         val uploadTask = avatarRef.putBytes(dataArray)
         uploadTask.addOnFailureListener {
             Log.i("MainActivity", "error : ${it.message}")
-        }.addOnSuccessListener {
-            Log.i("MainActivity", "Upload uri : ${it.uploadSessionUri}")
-            avatarRef.downloadUrl.addOnSuccessListener { uri ->
-                Log.i("MainActivity", "Download uri : $uri")
-            }.addOnFailureListener { e ->
-                Log.i("MainActivity", "error : ${e.message}")
-            }
         }
+            .addOnSuccessListener {
+                Log.i("MainActivity", "Upload uri : ${it.uploadSessionUri}")
+                avatarRef.downloadUrl.addOnSuccessListener { uri ->
+                    Log.i("MainActivity", "Download uri : $uri")
+                    val updatedPhotoUri = hashMapOf("profile_url" to uri.toString())
+                    docRef.document("${FirebaseAuth.getInstance().currentUser?.uid}")
+                        .set(updatedPhotoUri, SetOptions.merge())
+                }.addOnFailureListener { e ->
+                    Log.i("MainActivity", "error : ${e.message}")
+                }
+            }
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(this.findNavController(R.id.nav_host_fragment), binding.drawerLayout)
+        return NavigationUI.navigateUp(
+            this.findNavController(R.id.nav_host_fragment),
+            binding.drawerLayout
+        )
     }
 }

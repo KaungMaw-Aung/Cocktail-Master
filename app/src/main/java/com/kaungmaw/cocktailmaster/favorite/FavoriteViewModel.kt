@@ -14,5 +14,4 @@ class FavoriteViewModel(application: Application): ViewModel() {
 
     val favoriteList = repository.getFavoriteList()
 
-
 }
