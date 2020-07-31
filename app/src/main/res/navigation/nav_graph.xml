@@ -28,7 +28,11 @@
         android:id="@+id/alcoholicFragment"
         android:name="com.kaungmaw.cocktailmaster.alcoholic.AlcoholicFragment"
         android:label="fragment_alcoholic"
-        tools:layout="@layout/fragment_alcoholic" />
+        tools:layout="@layout/fragment_alcoholic" >
+        <action
+            android:id="@+id/action_alcoholicFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.kaungmaw.cocktailmaster.favorite.FavoriteFragment"
@@ -38,4 +42,9 @@
             android:id="@+id/action_favoriteFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.kaungmaw.cocktailmaster.profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

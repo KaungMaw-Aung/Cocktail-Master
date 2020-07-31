@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.kaungmaw.cocktailmaster.R
+import com.kaungmaw.cocktailmaster.alcoholic.AlcoholicFragmentDirections
 import com.kaungmaw.cocktailmaster.alcoholic.passedKey
 import com.kaungmaw.cocktailmaster.databinding.FragmentTabBinding
 import com.kaungmaw.cocktailmaster.overview.OverviewAdapter
@@ -38,7 +40,7 @@ class TabFragment : Fragment() {
 
         viewModel.alcoholicResponse.observe(viewLifecycleOwner , Observer {
             val adapter = OverviewAdapter(OverviewAdapter.OnClickListener { id ->
-                Toast.makeText(requireContext(), "$id is clicked!" , Toast.LENGTH_SHORT).show()
+                findNavController().navigate(AlcoholicFragmentDirections.actionAlcoholicFragmentToDetailFragment(id))
             })
             adapter.submitList(it)
             binding.rvAlcoholicList.adapter = adapter

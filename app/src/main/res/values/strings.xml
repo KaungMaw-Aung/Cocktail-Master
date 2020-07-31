@@ -10,5 +10,9 @@
     <string name="instruction_label">Instructions</string>
     <string name="cocktail_icon">cocktail icon</string>
     <string name="no_favorite_alert">+ Add Some Favorite!</string>
+    <string name="logout_label">Logout</string>
+    <string name="login_label">Login in for favorite feature!</string>
+    <string name="login_text">Login</string>
+    <string name="email_label">Email :</string>
 
 </resources>

@@ -108,4 +108,5 @@ class CocktailRepository(private val database: DrinkDatabase) {
             }
         return favoriteListLive
     }
+
 }

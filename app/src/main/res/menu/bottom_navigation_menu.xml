@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/overviewFragment"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+    <item
+        android:id="@+id/alcoholicFragment"
+        android:icon="@drawable/ic_round_local_bar_24"
+        android:title="Temperance" />
+    <item
+        android:id="@+id/favoriteFragment"
+        android:icon="@drawable/ic_sharp_favorite_24"
+        android:title="Favorites" />
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/ic_profile"
+        android:title="Profile" />
 </menu>

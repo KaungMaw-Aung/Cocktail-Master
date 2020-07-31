@@ -51,16 +51,14 @@ class DetailViewModel(application: Application, private val drinkIDKey: String) 
     }
 
     fun assignFavorite() {
-        var isContainInList = false
         docRef.get().addOnSuccessListener { document ->
+            val isContainInList: Boolean
             if (document != null) {
                 isContainInList = if (document.data?.get("favorite_list") == null) {
                     false
                 } else {
-                    document.data?.get("favorite_list").let {
-                        val list = it as ArrayList<*>
-                        list.contains(drinkIDKey)
-                    }
+                    val list = document.data?.get("favorite_list") as ArrayList<*>
+                    list.contains(drinkIDKey)
                 }
 //                isContainInList = document.data?.get("favorite_list")?.let {
 //                    val list = it as ArrayList<*>
@@ -80,16 +78,22 @@ class DetailViewModel(application: Application, private val drinkIDKey: String) 
         }
     }
 
+    private val _firstFavCheck = MutableLiveData<Boolean>()
+    val firstFavCheck: LiveData<Boolean>
+        get() = _firstFavCheck
 
     fun toggleFavorite() {
         docRef.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
-                    val isFavorite = document.data?.get("favorite_list")?.let {
-                        val list = it as ArrayList<*>
-                        list.contains(drinkIDKey)
+//                    val list = document.data?.get("favorite_list")
+                    _firstFavCheck.value = if (document.data?.get("favorite_list") == null) {
+                        false
+                    } else {
+                        val array = document.data?.get("favorite_list") as ArrayList<*>
+                        array.contains(drinkIDKey)
                     }
-                    _isFavorite.value = isFavorite
+//                    _isFavorite.value = isFavorite
                 }
             }
     }
