@@ -19,6 +19,16 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true",
+                        "room.expandProjection":"true"]
+            }
+        }
+
     }
 
     buildTypes {
@@ -128,6 +138,11 @@ dependencies {
     //for animation
     def lottieVersion = "3.4.1"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    implementation 'com.github.dhaval2404:imagepicker:1.7.4'
+    implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.4'
+
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 
 
 

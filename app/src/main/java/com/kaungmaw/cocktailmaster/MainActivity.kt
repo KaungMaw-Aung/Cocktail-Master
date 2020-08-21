@@ -7,9 +7,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.kaungmaw.cocktailmaster.databinding.ActivityMainBinding
 
-
-private const val TAG = "MainActivity"
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -68,10 +65,4 @@ class MainActivity : AppCompatActivity() {
                 }
             }*/
     }
-
-//    override fun onSupportNavigateUp(): Boolean {
-//        return NavigationUI.navigateUp(
-//            this.findNavController(R.id.nav_host_fragment)
-//        )
-//    }
 }

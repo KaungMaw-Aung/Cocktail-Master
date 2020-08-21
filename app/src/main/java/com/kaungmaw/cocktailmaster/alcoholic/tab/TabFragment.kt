@@ -21,15 +21,9 @@ class TabFragment : Fragment() {
     private lateinit var binding: FragmentTabBinding
     private val viewModel by viewModels<TabViewModel> { TabViewModelFactory(requireNotNull(this.activity).application) }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding =
-            FragmentTabBinding.inflate(LayoutInflater.from(requireContext()), container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        FragmentTabBinding.inflate(inflater, container, false).also { binding = it }.root
 
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireArguments().takeIf { it.containsKey(passedKey) }?.let {
@@ -44,7 +38,6 @@ class TabFragment : Fragment() {
             })
             adapter.submitList(it)
             binding.rvAlcoholicList.adapter = adapter
-
         })
     }
 }

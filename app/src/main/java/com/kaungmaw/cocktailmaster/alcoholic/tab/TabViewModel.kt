@@ -7,13 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kaungmaw.cocktailmaster.database.DrinkDatabase
 import com.kaungmaw.cocktailmaster.domain.DrinkDomain
-import com.kaungmaw.cocktailmaster.network.OverviewDto
 import com.kaungmaw.cocktailmaster.repository.CocktailRepository
 import kotlinx.coroutines.launch
 
 class TabViewModel(val app: Application): ViewModel() {
 
-    private val repository = CocktailRepository(DrinkDatabase.getInMemoryDatabase(app))
+    private val repository = CocktailRepository(DrinkDatabase.getDatabase(app))
 
     private val _alcoholicResponse = MutableLiveData<List<DrinkDomain>>()
     val alcoholicResponse: LiveData<List<DrinkDomain>>
@@ -25,7 +24,7 @@ class TabViewModel(val app: Application): ViewModel() {
 
     private fun getAlcoholicByType(type: String){
         viewModelScope.launch {
-            _alcoholicResponse.value = repository.refreshAlcoholic(type)
+            _alcoholicResponse.value = repository.getAlcoholicList(type)
         }
     }
 

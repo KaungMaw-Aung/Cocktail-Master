@@ -8,52 +8,29 @@ import kotlinx.coroutines.launch
 
 class OverviewViewModel(application: Application) : ViewModel() {
 
-    private val database = DrinkDatabase.getInMemoryDatabase(application)
+    private val database = DrinkDatabase.getDatabase(application)
 
     private val repository = CocktailRepository(database)
 
     private val categoryLive = MutableLiveData<String>()
 
     //list to observe
-    val drinkListResult = categoryLive
-        .distinctUntilChanged()
-        .switchMap { repository.getDrinkFromDatabase(it) }
+    val drinkListResult = categoryLive.distinctUntilChanged().switchMap {
+        repository.getDrinkFromDatabase(it)
+    }
 
-    //list for chips
-    val listForChips = listOf(
-        "Cocktail",
-        "Ordinary Drink",
-        "Milk / Float / Shake",
-        "Other/Unknown",
-        "Cocoa",
-        "Shot",
-        "Coffee / Tea",
-        "Homemade Liqueur",
-        "Punch / Party Drink",
-        "Beer",
-        "Soft Drink / Soda"
-    )
-
-
-    //previous chip
-    var savedChip: String = "Cocktail"
+    val currentFilter = MutableLiveData<String>()
 
     init {
-        getDrinkByCategory("Cocktail")
+        filter("Other/Unknown")
     }
 
-    fun filterDrink(category: String, isChecked: Boolean) {
-        if (isChecked && savedChip != category) {
-            getDrinkByCategory(category)
-        }
-    }
+    fun filter(category: String) {
+        categoryLive.value = category
 
-    private fun getDrinkByCategory(category: String) {
         viewModelScope.launch {
-           repository.refreshCocktailList(category)
-            categoryLive.value = category
+            repository.refreshCocktailList(category)
         }
-
     }
 
 }

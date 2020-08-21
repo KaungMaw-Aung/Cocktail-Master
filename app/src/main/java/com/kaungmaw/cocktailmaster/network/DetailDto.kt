@@ -13,10 +13,10 @@ data class DetailDto(
 fun DetailDto.asDatabaseModel(): DrinkEntity {
     val map = drink[0]
     return DrinkEntity(
-        drinkID = map["idDrink"]!!,
-        drinkName = map["strDrink"]!!,
-        category = map["strCategory"]!!,
-        instructions = map["strInstructions"]!!,
+        drinkID = map["idDrink"] ?: error(""),
+        drinkName = map["strDrink"] ?: error(""),
+        category = map["strCategory"] ?: error(""),
+        instructions = map["strInstructions"] ?: error(""),
         drinkImg = map["strDrinkThumb"] ?: "",
         ingredients = RoomConverter.adapter.toJson(
             map.keys.filter {

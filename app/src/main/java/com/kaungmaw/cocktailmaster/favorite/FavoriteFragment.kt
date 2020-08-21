@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.kaungmaw.cocktailmaster.R
 import com.kaungmaw.cocktailmaster.databinding.FragmentFavoriteBinding
 import com.kaungmaw.cocktailmaster.overview.OverviewAdapter
-import com.kaungmaw.cocktailmaster.overview.OverviewFragmentDirections
 
 class FavoriteFragment : Fragment() {
 

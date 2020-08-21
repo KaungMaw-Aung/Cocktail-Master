@@ -14,7 +14,7 @@ abstract class DrinkDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: DrinkDatabase? = null
 
-        fun getInMemoryDatabase(context: Context): DrinkDatabase {
+        fun getDatabase(context: Context): DrinkDatabase {
             synchronized(this) {
                 var instance = INSTANCE
                 if (instance == null) {

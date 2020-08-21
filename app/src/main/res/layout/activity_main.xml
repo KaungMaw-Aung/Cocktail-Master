@@ -88,13 +88,13 @@
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:itemTextColor="@color/bottom_nav_highlight"
+            app:itemIconTint="@color/bottom_nav_highlight"
             android:background="@color/primaryColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:itemTextColor="@color/primaryTextColor"
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/bottom_navigation_menu"
-            app:itemIconTint="@color/primaryTextColor"
             app:labelVisibilityMode="labeled"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
